@@ -7,62 +7,66 @@
 </head>
 <body>
 <p> This is the portion of our project where a world map would display and when the user clicked on the information, th country's name among other rellevant information would appear.</p>
-<ul>
-    <li>Selecting Elements:
-      <ul>
-        <li><code>const worldMap = document.getElementById('world-map');</code>: Retrieves the 'world-map' element.</li>
-        <li><code>const countryLabel = document.getElementById('country-label');</code>: Retrieves the 'country-label' element.</li>
-      </ul>
-    </li>
-    <li>Adding Event Listener:
-      <ul>
-        <li><code>worldMap.addEventListener('click', (event) => { ... });</code>: Sets up a click event listener on 'world-map'.</li>
-      </ul>
-    </li>
-    <li>Checking Click Coordinates:
-      <ul>
-        <li>Retrieves X and Y coordinates of the click event relative to 'world-map'.</li>
-        <li>Defines an array <code>countries</code> with country objects and their coordinates.</li>
-      </ul>
-    </li>
-    <li>Iterating through Countries:
-      <ul>
-        <li>Iterates through <code>countries</code> array.</li>
-        <li>Checks if click coordinates fall within the specified range for each country.</li>
+ Click Coordinates:
+ <ul>
+    <li>The code sets up a simple web application to interact with a world map and fetch country information.</li>
+    <li>It displays a world map image and a div for showing country information.</li>
+    <li>JavaScript is used to handle map clicks and retrieve country data.</li>
+    <li>The country information is displayed in the "Country Information" div when a country is clicked on the map.</li>
+    <li>The code relies on the Rest Countries API for country data, which is fetched based on click coordinates.</li>
+    <li>The obtained country data includes the country name, capital, population, region, and subregion.</li>
+    <li>The HTML structure is structured with elements like headings, paragraphs, and spans to format and display the information.</li>
+    <li>Event listeners are set up to detect clicks on the world map, which triggers the retrieval of country information.</li>
+    <li>The code can be customized and extended to meet specific requirements.</li>
+  </ul>
      
   
-<h2> Code </h2>
-    <pre>
-        // Inline JavaScript for interactivity
-        const worldMap = document.getElementById('world-map');
-        const countryLabel = document.getElementById('country-label');
-
-        worldMap.addEventListener('click', (event) => {
-            const x = event.offsetX;
-            const y = event.offsetY;
-
-            // You can define coordinates and country names here.
-            const countries = [
-                { name: 'USA', x1: 100, x2: 200, y1: 100, y2: 200 },
-                { name: 'Canada', x1: 300, x2: 400, y1: 150, y2: 250 },
-                // Add more countries and their coordinates as needed.
-            ];
-
-            for (const country of countries) {
-                if (x >= country.x1 && x <= country.x2 && y >= country.y1 && y <= country.y2) {
-                    countryLabel.textContent = country.name;
-                    countryLabel.style.left = `${x}px`;
-                    countryLabel.style.top = `${y}px`;
-                    countryLabel.style.display = 'block';
-                    break;
-                } else {
-                    countryLabel.style.display = 'none';
+<pre>
+            const worldMap = document.getElementById('world-map');
+            const countryInfo = document.getElementById('country-info');
+            const countryName = document.getElementById('country-name');
+            const capital = document.getElementById('capital');
+            const population = document.getElementById('population');
+            const region = document.getElementById('region');
+            const subregion = document.getElementById('subregion');
+        
+            worldMap.addEventListener('click', async (event) => {
+              const clickX = event.offsetX / worldMap.width;
+              const clickY = event.offsetY / worldMap.height;
+              const clickedCountry = await getCountryDataAtCoordinates(clickX, clickY);
+              if (clickedCountry) {
+                displayCountryInfo(clickedCountry);
+              }
+            });
+        
+            async function getCountryDataAtCoordinates(x, y) {
+              const response = await fetch('https://restcountries.com/v3.1/name/all');
+              const countries = await response.json();
+        
+              for (const country of countries) {
+                if (
+                  x >= country.location[0].latitude &&
+                  x <= country.location[1].latitude &&
+                  y >= country.location[0].longitude &&
+                  y <= country.location[1].longitude
+                ) {
+                  return country;
                 }
+              }
+              return null;
             }
-        });
-
-
-    </pre>
+        
+            function displayCountryInfo(country) {
+              countryInfo.style.display = 'block';
+              countryName.textContent = country.name.common;
+              capital.textContent = country.capital[0];
+              population.textContent = country.population;
+              region.textContent = country.region;
+              subregion.textContent = country.subregion;
+            }
+        </pre>
+       
+        
 
 
     
