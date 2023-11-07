@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 10px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+            border: 1px solid #000;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <div class="board">
+        <div class="cell" onclick="handleClick(0, 0)"></div>
+        <div class="cell" onclick="handleClick(0, 1)"></div>
+        <div class="cell" onclick="handleClick(0, 2)"></div>
+        <div class="cell" onclick="handleClick(1, 0)"></div>
+        <div class="cell" onclick="handleClick(1, 1)"></div>
+        <div class="cell" onclick="handleClick(1, 2)"></div>
+        <div class="cell" onclick="handleClick(2, 0)"></div>
+        <div class="cell" onclick="handleClick(2, 1)"></div>
+        <div class="cell" onclick="handleClick(2, 2)"></div>
+    </div>
+    <h2>Score</h2>
+    <div id="scoreX">Player X: 0</div>
+    <div id="scoreO">Player O: 0</div>
+
+    <script>
+        let currentPlayer = 'X';
+        let board = [
+            ['', '', ''],
+            ['', '', ''],
+            ['', '', '']
+        ];
+        let scoreX = 0;
+        let scoreO = 0;
+
+        function handleClick(row, col) {
+            if (board[row][col] === '' && !checkWinner()) {
+                board[row][col] = currentPlayer;
+                document.querySelector(`.board .cell:nth-child(${row * 3 + col + 1})`).textContent = currentPlayer;
+                
+                if (checkWinner()) {
+                    if (currentPlayer === 'X') {
+                        scoreX++;
+                        document.getElementById('scoreX').textContent = `Player X: ${scoreX}`;
+                    } else {
+                        scoreO++;
+                        document.getElementById('scoreO').textContent = `Player O: ${scoreO}`;
+                    }
+                    alert(`Player ${currentPlayer} wins!`);
+                    resetBoard();
+                } else {
+                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                }
+            }
+        }
+
+        function checkWinner() {
+            for (let i = 0; i < 3; i++) {
+                if (board[i][0] === currentPlayer && board[i][1] === currentPlayer && board[i][2] === currentPlayer) {
+                    return true;
+                }
+                if (board[0][i] === currentPlayer && board[1][i] === currentPlayer && board[2][i] === currentPlayer) {
+                    return true;
+                }
+            }
+            if (board[0][0] === currentPlayer && board[1][1] === currentPlayer && board[2][2] === currentPlayer) {
+                return true;
+            }
+            if (board[0][2] === currentPlayer && board[1][1] === currentPlayer && board[2][0] === currentPlayer) {
+                return true;
+            }
+            return false;
+        }
+
+        function resetBoard() {
+            board = [
+                ['', '', ''],
+                ['', '', ''],
+                ['', '', '']
+            ];
+            document.querySelectorAll('.board .cell').forEach(cell => cell.textContent = '');
+            currentPlayer = 'X';
+        }
+    </script>
+</body>
+</html>

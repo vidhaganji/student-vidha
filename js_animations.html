@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced JavaScript Concepts Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        .note-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .note {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="note-container">
+        <div class="note">
+            <h2>1. Closures</h2>
+            <p>A closure is a function that has access to its own scope, the outer containing function's scope, and the global scope. It allows a function to have private variables and create data encapsulation.</p>
+            <code>
+                function outerFunction() {<br>
+                    &nbsp;&nbsp;let outerVariable = "I am outer!";<br>
+                    &nbsp;&nbsp;function innerFunction() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log(outerVariable);<br>
+                    &nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;return innerFunction;<br>
+                }<br>
+                let innerFunc = outerFunction();<br>
+                innerFunc(); // Output: "I am outer!"
+            </code>
+        </div>
+
+        <div class="note">
+            <h2>2. Promises</h2>
+            <p>A Promise is an object representing the eventual completion or failure of an asynchronous operation. It allows for better handling of asynchronous tasks and avoids callback hell.</p>
+            <code>
+                const fetchData = new Promise((resolve, reject) => {<br>
+                    &nbsp;&nbsp;fetch('https://api.example.com/data')<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;.then(response => response.json())<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;.then(data => resolve(data))<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;.catch(error => reject(error));<br>
+                });<br>
+
+                fetchData.then(data => {<br>
+                    &nbsp;&nbsp;console.log(data);<br>
+                }).catch(error => {<br>
+                    &nbsp;&nbsp;console.error(error);<br>
+                });
+            </code>
+        </div>
+
+        <div class="note">
+            <h2>3. Async/Await</h2>
+            <p>Async/Await is a syntactical feature in JavaScript that allows working with asynchronous functions more comfortably. It makes asynchronous code look and behave more like synchronous code.</p>
+            <code>
+                async function fetchData() {<br>
+                    &nbsp;&nbsp;try {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;let response = await fetch('https://api.example.com/data');<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;let data = await response.json();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log(data);<br>
+                    &nbsp;&nbsp;} catch (error) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.error(error);<br>
+                    &nbsp;&nbsp;}<br>
+                }<br>
+
+                fetchData();
+            </code>
+        </div>
+
+        <div class="note">
+            <h2>4. Prototypal Inheritance</h2>
+            <p>JavaScript uses prototypal inheritance, where objects can inherit properties and methods from other objects. It is a key feature of JavaScript's object-oriented programming.</p>
+            <code>
+                function Animal(name) {<br>
+                    &nbsp;&nbsp;this.name = name;<br>
+                }<br>
+
+                Animal.prototype.sound = function() {<br>
+                    &nbsp;&nbsp;console.log('Some sound');<br>
+                }<br>
+
+                function Dog(name) {<br>
+                    &nbsp;&nbsp;Animal.call(this, name);<br>
+                }<br>
+
+                Dog.prototype = Object.create(Animal.prototype);<br>
+
+                let myDog = new Dog('Buddy');<br>
+                myDog.sound(); // Output: 'Some sound'
+            </code>
+        </div>
+    </div>
+</body>
+
+</html>

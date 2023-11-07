@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<p> This uses the flights dataset from seaborn to create a visualization of the dataset. </p>
+    <pre>
+        pip install seaborn matplotlib
+        import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the flights dataset (example data)
+flights_data = sns.load_dataset("flights")
+
+# Pivot the data to have months as rows, years as columns, and number of passengers as values
+flights_pivot = flights_data.pivot("month", "year", "passengers")
+
+# Create a heatmap using Seaborn
+plt.figure(figsize=(12, 8))
+sns.heatmap(flights_pivot, annot=True, fmt="d", cmap="YlGnBu")
+
+# Set the title and labels
+plt.title("Passenger Counts by Month and Year")
+plt.xlabel("Year")
+plt.ylabel("Month")
+
+# Show the plot
+plt.show()
+
+    </pre>
+</body>
+</html>
